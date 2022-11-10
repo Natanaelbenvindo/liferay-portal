@@ -1445,4 +1445,52 @@ definition {
 
 	}
 
+
+
+	@description = "Verify if the confirmation error message and validation error message together work correctly."
+	@ignore = "Test Stub"
+	@priority = "4"
+	test ViewConfirmationAndValidationErrorMessage {
+		property portal.acceptance = "true";
+
+		FormsAdmin.addForm();
+
+		Form.gotoAddField(fieldType = "Text");
+
+		Form.gotoAdvancedTab();
+
+		FormFields.enableSwitch(fieldName = "requireConfirmation");
+
+		FormFields.enableSwitch(fieldName = "validation");
+
+		FormFields.editValidation(
+			validationArgument = "Contains",
+			validationErrorMessage = "",
+			validationInput = "Text Test");
+
+		Form.save();
+
+		Form.publishForm();
+
+		FormsAdminNavigator.gotoPublishedForm();
+
+		FormFields.editText(
+			fieldName = "Text",
+			fieldValue = "Text Test");
+
+		FormFields.editConfirmationFieldText(
+			fieldName = "Text",
+			fieldValue = "Texxxt Test");
+		
+		FormPortlet.viewValidationErrorMessage(validationErrorMessage = "The information does not match.");
+
+		FormFields.editText(
+			fieldName = "Text",
+			fieldValue = "Texxxt Test");
+
+		FormPortlet.viewValidationErrorMessage(validationErrorMessage = "This field is invalid.");
+				
+	}
+
+
 }

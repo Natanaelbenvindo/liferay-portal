@@ -331,4 +331,93 @@ definition {
 		ObjectPortlet.assertEntryDetailsValuePresent(entryValue = "01/01/2022");
 	}
 
+	@description = "Verify when a new entry is created, if is possible to delete this entry"
+	@priority = "4"
+	test CanDeleteOneNewEntry {
+		task ("Given a related object with Custom Layout and Relationship tab") {
+            ObjectAdmin.addObjectViaAPI(
+                labelName = "Custom Object 165850",
+                objectName = "CustomObject165850",
+                pluralLabelName = "Custom Objects 165850");
+          
+		    ObjectAdmin.addObjectFieldViaAPI(
+                fieldBusinessType = "Text",
+                fieldLabelName = "Custom Field",
+                fieldName = "customField",
+                fieldType = "String",
+                isRequired = "false",
+                objectName = "CustomObject165850");
+          
+		    ObjectAdmin.addObjectRelationshipViaAPI(
+                objectName_1 = "CustomObject165850",
+                objectName_2 = "CustomObject165850",
+                relationshipLabel = "Relationship",
+                relationshipName = "relationship",
+                relationshipType = "oneToMany");
+          
+		    ObjectAdmin.addObjectLayoutViaAPI(
+                layoutName = "Custom Layout",
+                objectName = "CustomObject165850");
+          
+		    ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject165850");
+          
+		    ObjectAdmin.openObjectAdmin();
+          
+		    ObjectPortlet.selectCustomObject(label = "Custom Object 165850");
+          
+		    CreateObject.selectTitleField(fieldLabel = "Custom Field");
+          
+		    CreateObject.saveObject();
+          
+		    ObjectAdmin.goToLayoutsTab();
+          
+		    ObjectAdmin.selectSpecificKebabMenuOption(
+                kebabOption = "View",
+                objectLabel = "Custom Layout");
+          
+		    ObjectAdmin.markLayoutAsDefault();
+          
+		    ObjectAdmin.goToLayoutTabOnLayouts();
+          
+		    ObjectAdmin.addTabFieldsOnLayout(
+                blockName = "Block 1",
+                columnsNumber = "1",
+                fieldList = "Custom Field",
+                tabName = "Field Tab");
+          
+		    ObjectAdmin.addTabRelationshipsOnLayout(
+                relationshipsLabelName = "Relationship",
+                tabName = "Relationship Tab");
+          
+		    Button.clickSave();
+        }
+        task ("When add the entry") {
+            for (var value : list "Entry A,Entry B,Entry C") {
+                ObjectAdmin.addObjectSingleFieldEntryViaAPI(
+                    fieldName = "customField",
+                    objectName = "CustomObject165850",
+                    value = "${value}");
+                }
+          
+		    ObjectAdmin.goToCustomObject(objectName = "CustomObject165850");
+          
+		    ObjectPortlet.viewEntryDetails(entry = "Entry A");
+          
+		
+        }
+        task ("Then is possible to delete the entry") {
+            
+			ObjectAdmin.gotoRelationshipsTab();
+			    
+		    ObjectCustomLayouts.addEntryOnRelationshipTab(selectEntry = "Entry B");
+
+			ObjectAdmin.selectSpecificKebabMenuOption(
+                kebabOption = "Delete",
+                objectLabel = "Entry B");
+		
+		ObjectCustomViews.assertEmptyStateTextOnViewBuilder(text = "No Results Found");
+
+        }
+    }	
+
 }

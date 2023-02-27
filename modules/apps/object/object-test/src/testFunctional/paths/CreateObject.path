@@ -130,6 +130,11 @@
 		<td>//input[contains(@name,'r_relationship') and contains(@value,'${key_entry}')]</td>
 		<td></td>
 	</tr>
+		<tr>
+		<td>VIEW_ENTRY_RELATIONSHIP_FIELD</td>
+		<td>//div[contains(@class,'dnd-td')]['${key_indicerelationship}']//span[contains(text(),'${key_entry}')]</td>
+		<td></td>
+	</tr>
 	<tr>
 		<td>VIEW_RELATED_OBJECT_ON_RELATIONSHIP_FIELD</td>
 		<td>//div[contains(@class,'dnd-tbody')]//div[contains(@class, 'dnd-tr')]//div[contains(text(),'${key_relatedObject}') and contains(@class, 'dnd-td')][1]</td>

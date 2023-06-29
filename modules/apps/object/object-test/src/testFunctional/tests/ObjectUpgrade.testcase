@@ -530,7 +530,7 @@ definition {
 				relationshipName = "mTMCustomObject");
 
 			ObjectAdmin.deleteRelationshipViaUI(
-				relationshipLabel = "OTM - System Object",
+				relationshipLabel = "OTM - System Object Edit After Upgrade",
 				relationshipName = "oTMSystemObject");
 
 			AssertElementNotPresent(

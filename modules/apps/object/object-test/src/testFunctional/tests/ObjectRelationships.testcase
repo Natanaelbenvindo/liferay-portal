@@ -311,15 +311,22 @@ definition {
 
 		task ("Create a custom object, and a self relationship") {
 			ObjectAdmin.addObjectViaAPI(
-				labelName = "Custom Object",
-				objectName = "CustomObject",
-				pluralLabelName = "Custom Objects");
+				labelName = "Custom Object155537",
+				objectName = "CustomObject155537",
+				pluralLabelName = "Custom Object155537");
 
 			ObjectAdmin.addObjectRelationshipViaAPI(
-				objectName_1 = "CustomObject",
-				objectName_2 = "CustomObject",
+				objectName_1 = "CustomObject155537",
+				objectName_2 = "CustomObject155537",
 				relationshipLabel = "Self Relationship",
 				relationshipName = "selfRelationship",
+				relationshipType = "oneToMany");
+
+			ObjectAdmin.addObjectRelationshipViaAPI(
+				objectName_1 = "AccountEntry",
+				objectName_2 = "CustomObject155537",
+				relationshipLabel = "Relationship with Account",
+				relationshipName = "relationshipwithAccount",
 				relationshipType = "oneToMany");
 
 			ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject");
@@ -334,8 +341,8 @@ definition {
 
 			ObjectAdmin.addObjectRelationshipViaUI(
 				label = "Relationship with Custom Object",
-				object = "Custom Object",
-				parameterOption = "Self Relationship",
+				object = "Custom Object155537",
+				parameterOption = "Relationship with Account",
 				type = "One to Many");
 		}
 
@@ -1189,9 +1196,9 @@ definition {
 
 		task ("Create a custom object, and a self relationship") {
 			ObjectAdmin.addObjectViaAPI(
-				labelName = "Custom Object",
-				objectName = "CustomObject",
-				pluralLabelName = "Custom Objects");
+				labelName = "Custom Object155537",
+				objectName = "CustomObject155537",
+				pluralLabelName = "Custom Objects155537");
 
 			ObjectAdmin.addObjectFieldViaAPI(
 				fieldBusinessType = "Text",
@@ -1199,16 +1206,25 @@ definition {
 				fieldName = "customField",
 				fieldType = "String",
 				isRequired = "false",
-				objectName = "CustomObject");
+				objectName = "CustomObject155537");
+
+			for (var nameRelationship : list "A,B") {
+				ObjectAdmin.addObjectRelationshipViaAPI(
+					objectName_1 = "AccountEntry",
+					objectName_2 = "CustomObject155537",
+					relationshipLabel = "Relationship with Account ${nameRelationship}",
+					relationshipName = "relationshipwithAccount${nameRelationship}",
+					relationshipType = "oneToMany");
+			}
 
 			ObjectAdmin.addObjectRelationshipViaAPI(
-				objectName_1 = "CustomObject",
-				objectName_2 = "CustomObject",
+				objectName_1 = "CustomObject155537",
+				objectName_2 = "CustomObject155537",
 				relationshipLabel = "Self Relationship",
 				relationshipName = "selfRelationship",
 				relationshipType = "oneToMany");
 
-			ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject");
+			ObjectAdmin.publishObjectViaAPI(objectName = "CustomObject155537");
 		}
 
 		task ("Create an realtionship from Postal Address to custom object created") {
@@ -1220,17 +1236,17 @@ definition {
 
 			ObjectAdmin.addObjectRelationshipViaUI(
 				label = "Relationship with Custom Object",
-				object = "Custom Object",
-				parameterOption = "Self Relationship",
+				object = "Custom Object155537",
+				parameterOption = "Relationship with Account A",
 				type = "One to Many");
 		}
 
 		task ("Verify it's possible to edit a relationship parameter") {
 			ObjectAdmin.goToRelationshipsDetails(fieldName = "Relationship with Custom Object");
 
-			ObjectRelationships.editRelationshipsParameter(parameterOption = "Relationship with Custom Object");
+			ObjectRelationships.editRelationshipsParameter(parameterOption = "Relationship with Account B");
 
-			PortletEntry.save();
+			Button.clickSave();
 		}
 	}
 

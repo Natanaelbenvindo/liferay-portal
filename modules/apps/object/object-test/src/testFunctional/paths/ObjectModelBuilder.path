@@ -40,6 +40,11 @@
 		<td>//span[text()='Changes Saved']</td>
 		<td></td>
 	</tr>
+	<tr>
+		<td>MODEL_BUILDER_OBJECT_SIDEBAR_TREE</td>
+		<td>//li[contains(@class,'treeview-item') and div[normalize-space()='${objectLabel}']]</td>
+		<td></td>
+	</tr>
 </tbody>
 </table>
 </body>
